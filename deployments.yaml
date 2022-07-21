@@ -1,0 +1,27 @@
+##Creating a Kubernetes deployment to orchestrate the application container
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oncesync-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: oncesync-app
+  template:
+    metadata:
+      labels:
+        app: oncesync-app
+    spec:
+      containers:
+      - name: oncesync-app
+        image: oncesync_test:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        command: ["node"]
+        args:
+          - "index.js"
+        ports:
+        - containerPort: 3000
