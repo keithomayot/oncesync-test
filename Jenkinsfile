@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t oncesync-test .'
+        sh 'docker.build(oncesync-test)'
       }
     }
 
