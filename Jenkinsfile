@@ -1,9 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('Build') {
+    stage('Build docker image') {
       steps {
-        sh 'docker.build("keithomayot/oncesync-test")'
+        sh 'Docker build -t oncesync-test:latest .'
       }
     }
 
