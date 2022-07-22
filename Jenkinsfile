@@ -1,9 +1,15 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'docker'
+      args '--privileged -u root'
+    }
+
+  }
   stages {
-    stage('Build docker image') {
+    stage('build docker image') {
       steps {
-        sh 'Docker build -t oncesync-test:latest .'
+        sh 'docker build -t onesync-test:v1 .'
       }
     }
 
