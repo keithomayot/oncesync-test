@@ -1,15 +1,9 @@
 pipeline {
-  agent {
-    docker {
-      image 'docker'
-      args '--privileged -u root'
-    }
-
-  }
+  agent any
   stages {
     stage('build docker image') {
       steps {
-        sh 'docker build -t onesync-test:v1 .'
+        sh 'def app = docker.build "onesync-test:v1 "'
       }
     }
 
