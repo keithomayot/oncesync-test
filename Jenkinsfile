@@ -4,7 +4,7 @@ pipeline {
     stage('build docker image') {
       steps {
         script {
-          app = docker.build "onesync-test:v1 "
+          def app = docker.build "onesync-test:v1"
         }
 
       }
