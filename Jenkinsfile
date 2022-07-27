@@ -7,7 +7,7 @@ spec:
   containers:
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
-    imagePullPolicy: IfnotPresent
+    imagePullPolicy: IfNotPresent
     command:
     - sleep
     args:
