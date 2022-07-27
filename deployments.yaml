@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: oncesync-app
-        image: oncesync_test:v1
+        image: oncesync-test:v1
         resources:
           limits:
             memory: "128Mi"
