@@ -1,7 +1,7 @@
 pipeline {
-    agent {
+  agent {
     kubernetes {
-      yaml """
+      yaml '''
 kind: Pod
 spec:
   containers:
@@ -24,8 +24,9 @@ spec:
 #          items:
 #            - key: .dockerconfigjson
 #              path: config.json
-"""
+'''
     }
+
   }
   stages {
     stage('build docker image with Kaniko') {
@@ -35,6 +36,7 @@ spec:
             /kaniko/executor --context `pwd` --destination oncesync-test:latest 
           '''
         }
+
       }
     }
 
