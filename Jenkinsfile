@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 pipeline {
     agent {
     kubernetes {
@@ -39,4 +40,19 @@ spec:
     }
 
   }
+=======
+pipeline {
+  agent any
+  stages {
+    stage('Build docker image') {
+      steps {
+        script {
+          def app = docker.build'onesync-test:v1'
+        }
+
+      }
+    }
+
+  }
+>>>>>>> ff0881769c291ac3b630d97da08b390ea14f1bb1
 }
