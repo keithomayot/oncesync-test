@@ -25,7 +25,6 @@ spec:
             - key: .dockerconfigjson
               path: config.json
 '''
-
     }
 
   }
