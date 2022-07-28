@@ -1,0 +1,24 @@
+# ansible playbook to deploy test application
+- name: Run node application
+  # hosts: virtualmachines
+  # tasks:
+  #  - name: Ping my hosts
+  #    ansible.builtin.ping:
+  #  - name: Print message
+  #    ansible.builtin.debug:
+  #      msg: Hello world
+  # hosts: localhost
+  local_action:
+  tasks:
+  - name: Deploy the service
+    k8s:
+      state: present
+      definition: "{{ lookup('template', 'services.yaml') | from_yaml }}"
+      validate_certs: no
+      namespace: oncesync
+  - name: Deploy the application
+    k8s:
+      state: present
+      validate_certs: no
+      namespace: oncesync
+      definition: "{{ lookup('template', 'deployments.yaml') | from_yaml }}"

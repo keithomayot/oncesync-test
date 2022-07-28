@@ -1,4 +1,10 @@
 pipeline {
+  
+  environment {
+       registry = "magalixcorp/k8scicd"
+       GOCACHE = "/tmp"
+  }
+
   agent {
     kubernetes {
       yaml '''
@@ -39,6 +45,23 @@ spec:
 
       }
     }
+  stage("Deploy to minikube with ansible"){
+      steps{
+          echo "====++++executing ++++===="
+      }
+      post{
+          always{
+              echo "====++++always++++===="
+          }
+          success{
+              echo "====++++ executed successfully++++===="
+          }
+          failure{
+              echo "====++++ execution failed++++===="
+          }
+  
+      }
+  }  
 
   }
 }
