@@ -1,8 +1,7 @@
 pipeline {
   
   environment {
-       registry = "magalixcorp/k8scicd"
-       GOCACHE = "/tmp"
+       registry = "keithomayot/oncesync"
   }
 
   agent {
@@ -45,19 +44,19 @@ spec:
 
       }
     }
-  stage("Deploy to minikube with ansible"){
+  stage("Deploy to localhost with ansible"){
       steps{
-          echo "====++++executing ++++===="
+          sh'ansible-playbook deployplaybook.yaml --extra-vars "image_id=${image_id}"'
       }
       post{
           always{
-              echo "====++++always++++===="
+              echo "Step has been run"
           }
           success{
-              echo "====++++ executed successfully++++===="
+              echo "Playbook run successfully"
           }
           failure{
-              echo "====++++ execution failed++++===="
+              echo "Could not run playbook"
           }
   
       }
