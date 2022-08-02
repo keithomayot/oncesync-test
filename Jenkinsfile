@@ -45,8 +45,11 @@ spec:
       }
     }
   stage("Deploy to localhost with ansible"){
+    environment{
+      def image_id = registry + ":${BUILD_NUMBER}";
+      }
       steps{
-          def image_id = registry + ":${BUILD_NUMBER}"
+          
           // sh'ansible-playbook deployplaybook.yaml --extra-vars "image_id=${image_id}"'
           ansiblePlaybook(playbook: 'deployplaybook.yaml', extraVars: [image_id: '${image_id}'])
       }
