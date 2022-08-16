@@ -3,7 +3,7 @@ pipeline {
   environment {
        registry = "keithomayot/oncesync"
   }
-
+  agent any  
   stages {
     stage('build docker image with Kaniko') {
         agent {
