@@ -1,14 +1,10 @@
 pipeline {
-  
-  environment {
-       registry = "keithomayot/oncesync"
-  }
-  agent any  
+  agent any
   stages {
     stage('build docker image with Kaniko') {
-        agent {
-            kubernetes {
-              yaml '''
+      agent {
+        kubernetes {
+          yaml '''
         kind: Pod
         spec:
           containers:
@@ -32,10 +28,9 @@ pipeline {
                     - key: .dockerconfigjson
                       path: config.json
         '''
-            }
+        }
 
-  }
-
+      }
       steps {
         container(name: 'kaniko', shell: '/busybox/sh') {
           sh '''#!/busybox/sh
@@ -45,34 +40,34 @@ pipeline {
 
       }
     }
-  stage("Deploy to localhost with ansible"){
-    environment{
-      def image_id = "${registry}" + ":latest";
-      }
-      agent any    
-      steps{
-          echo"This is the ${BUILD_NUMBER} th build";
-          // sh ''' 
-          //    ansible-playbook /deployplaybook.yaml -e image_id='${image_id}'
-          //    '''
-          ansiblePlaybook(playbook: '/deployplaybook.yaml', 
-                          extraVars: [image_id: '${image_id}'],
-                          colorized: true,
-                          installation: 'ansible')
-      }
-      post{
-          always{
-              echo "Step has been run"
-          }
-          success{
-              echo "Playbook run successfully"
-          }
-          failure{
-              echo "Could not run playbook"
-          }
-  
-      }
-  }  
 
+    stage('Deploy to localhost with ansible') {
+      agent any
+      environment {
+        image_id = '${registry}:latest'
+      }
+      post {
+        always {
+          echo 'Step has been run'
+        }
+
+        success {
+          echo 'Playbook run successfully'
+        }
+
+        failure {
+          echo 'Could not run playbook'
+        }
+
+      }
+      steps {
+        echo "This is the ${BUILD_NUMBER} th build"
+        ansiblePlaybook(playbook: '/deployplaybook.yaml', extraVars: [image_id: '${image_id}'], colorized: true, installation: 'ansible')
+      }
+    }
+
+  }
+  environment {
+    registry = 'keithomayot/oncesync'
   }
 }
