@@ -1,10 +1,14 @@
 pipeline {
-  agent any
+  
+  environment {
+       registry = "keithomayot/oncesync"
+  }
+  agent any  
   stages {
     stage('build docker image with Kaniko') {
-      agent {
-        kubernetes {
-          yaml '''
+        agent {
+            kubernetes {
+              yaml '''
         kind: Pod
         spec:
           containers:
@@ -28,9 +32,10 @@ pipeline {
                     - key: .dockerconfigjson
                       path: config.json
         '''
-        }
+            }
 
-      }
+  }
+
       steps {
         container(name: 'kaniko', shell: '/busybox/sh') {
           sh '''#!/busybox/sh
@@ -40,14 +45,13 @@ pipeline {
 
       }
     }
-
-    stage('Deploy to localhost with ansible') {
-      agent any
-      environment {
-        image_id = '${registry}:latest'
+  stage("Deploy to localhost with ansible"){
+    environment{
+      def image_id = "${registry}" + ":latest";
       }
-<<<<<<< HEAD
+
       agent any    
+      
       steps{
           echo"This is the ${BUILD_NUMBER} th build";
           // sh ''' 
@@ -57,26 +61,20 @@ pipeline {
                           extraVars: [image_id: '${image_id}'],
                           colorized: true,
                           installation: 'ansible')
-=======
-      post {
-        always {
-          echo 'Step has been run'
-        }
+      }
+      post{
+          always{
+              echo "Step has been run"
+          }
+          success{
+              echo "Playbook run successfully"
+          }
+          failure{
+              echo "Could not run playbook"
+          }
+  
+      }
+  }  
 
-        success {
-          echo 'Playbook run successfully'
-        }
-
-        failure {
-          echo 'Could not run playbook'
-        }
-
->>>>>>> 43db29e2b976636204378f916343f3ba21b3e6f1
-
-    }
-
-  }
-  environment {
-    registry = 'keithomayot/oncesync'
   }
 }
