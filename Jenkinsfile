@@ -55,7 +55,7 @@ pipeline {
           // sh ''' 
           //    ansible-playbook /deployplaybook.yaml -e image_id='${image_id}'
           //    '''
-          ansiblePlaybook(playbook: '/deployplaybook.yaml', 
+          ansiblePlaybook(playbook: '/app/deployplaybook.yaml', 
                           extraVars: [image_id: '${image_id}'],
                           colorized: true,
                           installation: 'ansible')
