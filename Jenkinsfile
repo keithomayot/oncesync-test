@@ -53,11 +53,11 @@ pipeline {
       agent any    
       
       steps{
-          echo"This is the ${BUILD_NUMBER} th build";
+          echo "This is the ${BUILD_NUMBER} th build";
           // sh ''' 
           //    ansible-playbook /deployplaybook.yaml -e image_id='${image_id}'
           //    '''
-          ansiblePlaybook(playbook: '/deployplaybook.yaml', 
+          ansiblePlaybook(playbook: '${WORKSPACE}/deployplaybook.yaml', 
                           extraVars: [image_id: '${image_id}'],
                           colorized: true,
                           installation: 'ansible')
