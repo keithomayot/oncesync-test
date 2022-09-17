@@ -1,7 +1,7 @@
 # ansible playbook to deploy test application
 - name: Run node application
-  # hosts: localhost
-  local_action:
+  hosts: localhost
+  # local_action:
   tasks:
   - name: Create a k8s namespace
     kubernetes.core.k8s:
