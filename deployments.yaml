@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: oncesync-app
+  namespace: oncesync
 spec:
   replicas: 2
   selector:
@@ -15,11 +16,11 @@ spec:
     spec:
       containers:
       - name: oncesync-app
-        image: oncesync_test:v1
+        image: "{{ image_id }}"
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "10Mi"
+            cpu: "30m"
         command: ["node"]
         args:
           - "index.js"

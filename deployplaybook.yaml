@@ -1,0 +1,25 @@
+# ansible playbook to deploy test application
+- name: Run node application
+  hosts: localhost
+  # local_action:
+  tasks:
+  - name: Create a k8s namespace
+    k8s:
+      name: oncesync
+      api_version: v1
+      kind: Namespace
+      state: present
+
+  - name: Deploy the service
+    k8s:
+      state: present
+      definition: "{{ lookup('template', 'services.yaml') | from_yaml }}"
+      validate_certs: no
+      namespace: oncesync
+  
+  - name: Deploy the application
+    k8s:
+      state: present
+      validate_certs: no
+      namespace: oncesync
+      definition: "{{ lookup('template', 'deployments.yaml') | from_yaml }}"

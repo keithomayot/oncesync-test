@@ -8,9 +8,9 @@ WORKDIR /app
 
 #Copy package.json file and install necessary node packages
 COPY package.json package.json
-# RUN npm install
+RUN npm install
 # add npm ci for faster package installs during builds in production 
-RUN npm ci --only=production
+# RUN npm ci --only=production
 
 COPY . .
 
