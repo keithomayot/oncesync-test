@@ -61,6 +61,8 @@ pipeline {
       
           echo "Install Ansible collection"
           
+          sh 'pip install openshift'
+          
           sh 'ansible-galaxy collection install kubernetes.core'
           
           ansiblePlaybook(playbook: '${WORKSPACE}/deployplaybook.yaml', 
